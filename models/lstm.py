@@ -26,6 +26,7 @@ class LSTM(nn.Module):
         self.output_layer_toClass = nn.Linear(hidden_dim, n_classes, bias=False)
 
     def forward(self, x, lengths, **kwargs):
+        """ expects padded one hot encoded input x of dimensions [batch x voc-size x max-length], and the actual lengths in a 1d second argument lengths """
 
         # get embedding
         x_embedded = self.embedding(x.long())
@@ -42,7 +43,6 @@ class LSTM(nn.Module):
         # predict class
         output = self.output_layer_toClass(output)
         return output.sum(dim=1)
-
 
 
 if __name__ == '__main__':
@@ -63,8 +63,10 @@ if __name__ == '__main__':
     for j, line in enumerate(lines):
         # sample random letters in lines whose index is not supposed to be padding
         desired_length = line_lengths[j]
-        line[:desired_length] = torch.tensor([random.choice(list(range(vocabulary_size))) for _ in range(desired_length.item())])
+        line[:desired_length] = torch.tensor(
+            [random.choice(list(range(vocabulary_size))) for _ in range(desired_length.item())])
 
     model = LSTM(n_classes=10, hidden_dim=embedding_dim, vocabulary_size=vocabulary_size)
     output = model.forward(lines, line_lengths)
     print(output.shape)
+    assert output.shape == torch.randn((5, 10)).shape, "final shape is wrong"

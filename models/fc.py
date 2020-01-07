@@ -36,3 +36,4 @@ if __name__ == '__main__':
     model = FC(n_classes=n_classes, in_features=features)
     output = model.forward(example_batch_flat)
     print(output.shape)
+    assert output.shape == torch.randn((5, 10)).shape, "final shape is wrong"

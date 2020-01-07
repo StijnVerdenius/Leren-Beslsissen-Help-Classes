@@ -160,3 +160,5 @@ if __name__ == '__main__':
     model = ResNet(n_classes=n_classes, input_dim=(channels, spatial_dim, spatial_dim))
     output = model.forward(example_batch_rgb_picture)
     print(output.shape)
+    assert output.shape == torch.randn((5, 10)).shape, "final shape is wrong"
+

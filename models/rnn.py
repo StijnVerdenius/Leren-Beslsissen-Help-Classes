@@ -69,3 +69,4 @@ if __name__ == '__main__':
     model = RNN(n_classes=10, hidden_dim=embedding_dim, vocabulary_size=vocabulary_size)
     output = model.forward(lines, line_lengths)
     print(output.shape)
+    assert output.shape == torch.randn((5, 10)).shape, "final shape is wrong"

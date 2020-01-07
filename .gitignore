@@ -1,0 +1,11 @@
+# determines which files or complete directories will not be added to git
+
+results.json
+model.pickle
+./results.json
+./model.pickle
+
+*/data/
+./data/
+data/
+

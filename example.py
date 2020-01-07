@@ -13,7 +13,7 @@ from training.nn_classification_trainer import NNClassificationTrainer
 # get data
 train_data, test_data = get_toy_loaders(length=1000, batch_size=32)
 
-# analyse data
+# analyse data before training
 first_batch_data, firs_batch_labels = next(iter(test_data))
 print("batch_shape:", first_batch_data.shape)
 index_class_zero = firs_batch_labels == 0
@@ -32,13 +32,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 # init train classes
 loss = nn.CrossEntropyLoss()
 model = FC(device=device, hidden_dim=16, n_classes=2, in_features=first_batch_data.shape[1])
-optimizer = optim.SGD(model.parameters(), lr=0.001)  # alternatively: try optim.Adam
-
-# get number of parameters:
-n_params = 0
-for p in model.parameters():
-    n_params += int(np.prod(p.shape))
-print("parameter-count:", n_params)
+optimizer = optim.SGD(model.parameters(), lr=0.005)  # alternatively: try optim.Adam
 
 # do training
 trainer = NNClassificationTrainer(model=model,
@@ -47,7 +41,7 @@ trainer = NNClassificationTrainer(model=model,
                                   device=device,
                                   train_loader=train_data,
                                   test_loader=test_data,
-                                  epochs=50)
+                                  epochs=100)
 metrics, trained_model = trainer.train()
 
 # plot results
@@ -68,6 +62,12 @@ with open("results.json", "w") as f:
 # loading trained model example
 new_model_with_same_config = FC(device=device, hidden_dim=16, n_classes=2, in_features=first_batch_data.shape[1])
 new_model_with_same_config.load_state_dict(torch.load(path))
+
+# get number of parameters:
+n_params = 0
+for p in model.parameters():
+    n_params += int(np.prod(p.shape))
+print("parameter-count:", n_params)
 
 # show they are identical
 print("saved_model", model)

@@ -26,7 +26,11 @@ class LSTM(nn.Module):
         self.output_layer_toClass = nn.Linear(hidden_dim, n_classes, bias=False)
 
     def forward(self, x, lengths, **kwargs):
-        """ expects padded one hot encoded input x of dimensions [batch x voc-size x max-length], and the actual lengths in a 1d second argument lengths """
+        """
+        expects indexed input x of dimensions [batch x max-length] (https://pytorch.org/docs/stable/nn.html), and the actual lengths in a 1d second argument lengths
+        alternatively you could try without embedding layer and with one-hot encoding: https://machinelearningmastery.com/why-one-hot-encode-data-in-machine-learning/
+        """
+
 
         # get embedding
         x_embedded = self.embedding(x.long())

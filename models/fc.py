@@ -3,7 +3,6 @@ import torch.nn as nn
 
 
 class FC(nn.Module):
-
     """ fully connected (FC) network implementation """
 
     def __init__(self, device="cpu", hidden_dim=2, n_classes=2, in_features=2):
@@ -21,13 +20,14 @@ class FC(nn.Module):
         ).to(device)  # put network parameters to gpu or cpu
 
     def forward(self, x: torch.Tensor):
+        """ any input size greater or equal to 2d will do """
+
         # flattens any tensor into 2d: [batch-size x other-dims]
         x = x.view(x.shape[0], -1)
         return self.layers.forward(x)
 
 
 if __name__ == '__main__':
-
     """ run to test, output should be shaped [5 x 10] = (batch x classes) """
     batch_size = 5
     features = 3000

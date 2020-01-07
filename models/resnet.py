@@ -50,17 +50,20 @@ class ResNet(nn.Module):
         ).to(device)
 
     def forward(self, x):
+        """ input shape = [batch x channel x dim1 x dim2] """
+
+        # a convnet can process images (batch-dim + 3d data)
         x = self.conv1(x)
         x = self.bn1(x)
         x = self.relu(x)
         x = self.maxpool(x)
-
         x = self.layer1(x)
         x = self.layer2(x)
         x = self.layer3(x)
         x = self.layer4(x)
-
         x = self.avgpool(x)
+
+        # then switch back to fully connected, we need it to be (batch-dim + 1d)
         x = torch.flatten(x, 1)
         x = self.fc(x)
 

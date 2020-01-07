@@ -34,6 +34,8 @@ class LeNet5(nn.Module):
         ).to(device)
 
     def forward(self, x: torch.Tensor):
+        """ input shape = [batch x channel x dim1 x dim2] """
+
         # a convnet can process images (batch-dim + 3d data)
         x = self.conv.forward(x)
 

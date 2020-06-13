@@ -63,7 +63,3 @@ Thereafter you call *.train()* instead.
 ### See also:
 
 - Example on [colab](https://colab.research.google.com/drive/1arq7ZpWoO4Xw1od_RbMTHCl5IwIoYXOZ) 
-
-### Updates:
-
-...
